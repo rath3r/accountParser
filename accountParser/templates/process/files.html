@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h2>{% block title %}Files{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>These files are available to be processed:</p>
+    <ul>
+        {% for file in files %}
+            <li>{{ file[0][1] }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
