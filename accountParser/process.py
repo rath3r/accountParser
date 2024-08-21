@@ -26,3 +26,10 @@ def files():
     ]
 
     return render_template('process/files.html', files=files)
+
+# process an individual file 
+# the name could be the actual file name initially and the file name as recorded in the 
+@bp.route('/file/<filename>')
+def processFile(filename):
+    print(filename)
+    return render_template('process/file.html', file=filename)

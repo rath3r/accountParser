@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h2>{% block title %}Files{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Process this file:</p>
+    <p>{{ file }}</p>
+{% endblock %}
