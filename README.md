@@ -60,6 +60,7 @@ $ flask --app accountParser init-db
 ### MVP
 
 - Add each line of the csv to a db table
+- Categorise each line
 - Search for individual things in the table
 - produce a result
 

@@ -1,4 +1,4 @@
-import functools
+import functools, csv, os
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -29,7 +29,17 @@ def files():
 
 # process an individual file 
 # the name could be the actual file name initially and the file name as recorded in the 
+# example file 9e6295b0-2d43-4578-9968-6f5233699060.csv
 @bp.route('/file/<filename>')
 def processFile(filename):
-    print(filename)
+    uploadsPath = f"{os.getcwd()}/uploads"
+
+    try:
+        with open(f"{uploadsPath}/{filename}") as csvfile:
+            fileReader = csv.reader(csvfile)
+            for row in fileReader:
+                print(', '.join(row))
+    except FileNotFoundError:
+        print(f"{filename}: does not exist")
+
     return render_template('process/file.html', file=filename)
