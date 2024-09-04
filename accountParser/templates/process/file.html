@@ -5,6 +5,27 @@
 {% endblock %}
 
 {% block content %}
-    <p>Process this file:</p>
-    <p>{{ file }}</p>
+    <p>Processing: {{ file }}</p>
+    <p>Entries</p>
+    <table>
+        {% for line in lines %}
+        {% if loop.first %}
+        <thead>
+            <tr>
+                {% for entry in line %}
+                <th>{{ entry }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        {% else %}
+        <tbody>
+            <tr>
+                {% for entry in line %}
+                <td>{{ entry }}</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+        {% endif %}
+        {% endfor %}
+    </table>
 {% endblock %}

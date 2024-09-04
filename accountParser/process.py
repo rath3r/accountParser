@@ -34,12 +34,19 @@ def files():
 def processFile(filename):
     uploadsPath = f"{os.getcwd()}/uploads"
 
+    lines = []
     try:
         with open(f"{uploadsPath}/{filename}") as csvfile:
             fileReader = csv.reader(csvfile)
             for row in fileReader:
-                print(', '.join(row))
+                # print(', '.join(row))
+            #    line = []
+                lines.append(row)
+
+#                print(line)
+#            lines.append(row)
     except FileNotFoundError:
         print(f"{filename}: does not exist")
 
-    return render_template('process/file.html', file=filename)
+    print(lines)
+    return render_template('process/file.html', file=filename, lines=lines)
