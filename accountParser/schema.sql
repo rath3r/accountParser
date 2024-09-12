@@ -10,6 +10,10 @@ CREATE TABLE accountEntries (
     name TEXT NOT NULL
 );
 
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL
+)
 /*
 
 Original example:

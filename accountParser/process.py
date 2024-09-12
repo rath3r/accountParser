@@ -13,6 +13,11 @@ class file():
 
 bp = Blueprint('process', __name__, url_prefix='/process')
 
+@bp.route('/')
+def home():
+
+    return render_template('process/index.html')
+
 @bp.route('/files', methods=('GET', 'POST'))
 def files():
     if request.method == 'POST':
