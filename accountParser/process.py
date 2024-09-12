@@ -11,7 +11,7 @@ class file():
         self.name = name
         self.location = location
 
-bp = Blueprint('auth', __name__, url_prefix='/process')
+bp = Blueprint('process', __name__, url_prefix='/process')
 
 @bp.route('/files', methods=('GET', 'POST'))
 def files():
@@ -37,6 +37,8 @@ def processFile(filename):
         # deal with the form
         print(request.form)
         processed = True
+
+        redirect(url_for('process.files'))
     else:
         uploadsPath = f"{os.getcwd()}/uploads"
 
