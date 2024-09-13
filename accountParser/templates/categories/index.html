@@ -5,5 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <p>The categories page</p>
+    {% if categories|length > 0 %}
+        <p>Here is a list of the available categories:<p>
+        <ul>
+            {% for category in categories %}
+                <li>{{ category['title'] }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no categories added yet.</p>
+    {% endif %}
+    <a href="/categories/add">Add</a>
 {% endblock %}

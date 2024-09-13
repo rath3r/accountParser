@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h2>{% block title %}Categories - Add{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Let's add a category.</p>
+    <form action="/categories/add" method="POST">
+        <div class="mb-3">
+            <label for="categoryTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" name="categoryTitle" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}
