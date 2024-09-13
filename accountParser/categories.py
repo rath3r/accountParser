@@ -18,7 +18,6 @@ def files():
         'SELECT * FROM categories'
     ).fetchall()
 
-    print(categories)
     return render_template('categories/index.html', categories=categories)
 
 @bp.route('/add', methods=('GET', 'POST'))

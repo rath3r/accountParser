@@ -4,16 +4,30 @@ files - to list processed files
 */
 
 DROP TABLE IF EXISTS accountEntries;
+DROP TABLE IF EXISTS files;
 
 CREATE TABLE accountEntries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
 
+CREATE TABLE files (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  dateUploaded TEXT,
+  dateUpdated TEXT,
+  type TEXT,
+  processed INTEGER
+);
+
+/*
 CREATE TABLE categories (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL
 )
+*/
+
+
 /*
 
 Original example:
