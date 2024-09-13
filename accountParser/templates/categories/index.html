@@ -5,15 +5,28 @@
 {% endblock %}
 
 {% block content %}
-    {% if categories|length > 0 %}
-        <p>Here is a list of the available categories:<p>
-        <ul>
-            {% for category in categories %}
-                <li>{{ category['title'] }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>There are no categories added yet.</p>
-    {% endif %}
-    <a href="/categories/add">Add</a>
+    <div class="row">
+        <div class="col-lg-8">
+            {% if categories|length > 0 %}
+                <p>Here is a list of the available categories:<p>
+                <a href="/categories/add">Add</a>
+                <ul id="categories">
+                    {% for category in categories %}
+                        <li>{{ category['title'] }} <span><a href="/categories/delete?id={{ category['id']}}">Delete</a></span></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>There are no categories added yet.</p>
+            {% endif %}
+            <a href="/categories/add">Add</a>
+        </div>
+        <div class="col">
+            <p>Todo:</p>
+            <ul>
+                <li>Add the delete functionality</li>
+                <li>Edit the categories</li>
+                <li>Group categories using subcategories</li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}

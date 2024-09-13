@@ -57,62 +57,8 @@ $ flask --app accountParser init-db
 
 #### Categories
 
-Subscriptions
-Groceries
-Gas&Electric
-Cats
-Books
-Eating Out
-Fee
-Saving
-Parking
-Insurance
-Petrol
-Childcare
-Trev EasyFlow
-Internet & Phones
-Swimming
-Gifts
-Gym
-Home Improvements
-Woodies
-Shoping
-Entertainment
-Clubs
-Travel
-Chemist
-Tolls
-Holiday
-Camps
-Restaurants
-Health
-Laundry
-Dohenys
-Medical
-Mortgage
-Driving
-Beauty etc
-Unknown
-Gymnastics
-Charity
-Dentist
-TV License
-FAI
-Gaelscoil
-Garden
-Electronics
-Hotels
-Photos
-Taxi
-Car Service
-Langtons
-Accountant
-Pubs
-Cash
-Hair
-Tag
-Clothes
-Kids Bus
+Categoris are used to group spending. THe different categories are stored in the SQLlite DB and a
+backup us kept in CSV files in the non version controlled data directory.
 
 ## Process
 
