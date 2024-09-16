@@ -23,6 +23,14 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def getFileTypes():
+    db = get_db()
+    fileTypes = db.execute(
+        'SELECT * FROM fileTypes'
+    ).fetchall()
+ 
+    return fileTypes
+
 @bp.route('/')
 def index():
 
@@ -87,11 +95,12 @@ def processFile(filename):
         except FileNotFoundError:
             print(f"{filename}: does not exist")
 
+        fileTypes = getFileTypes();
         #for line in lines:
             #line.append(''.join(line))
             #print(hash(joinedRow))
-        print(lines[0])
+        #print(lines[0])
         processed = False
 
     print(lines)
-    return render_template('process/file.html', processed=processed, file=filename, lines=lines)
+    return render_template('process/file.html', processed=processed, file=filename, lines=lines, fileTypes=fileTypes)
