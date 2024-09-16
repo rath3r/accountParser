@@ -55,6 +55,17 @@ After running the virtual environment use:
 $ flask --app accountParser init-db
 ```
 
+#### SQLite help
+
+Use the `sqlite3` command to access the database on the command line.
+
+```
+$ sqlite3 accountparser.sqlite
+```
+
+Show tables: `.tables`
+Show column names: `.schema <table>`
+
 #### Categories
 
 Categoris are used to group spending. THe different categories are stored in the SQLlite DB and a

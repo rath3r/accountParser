@@ -8,45 +8,49 @@
     <p>Processing: {{ file }}</p>
     <p>Entries</p>
     <form action="/process/file/{{ file }}" method="post">
-        <table>
+        <table class="mb-3">
             {% for line in lines %}
-                {% if loop.first %}
-                    <thead>
-                        <tr>
-                            {% for entry in line %}
-                                {% if not loop.last %}
-                                    <th>{{ entry }}</th>
-                                {% else %}
-                                    {# hash changed so I've just used a joined string #}
-                                    <th><input type="hidden" name="titleHash" value="{{ entry }}"/></th>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                        {# add the type of file #}
-                    </thead>
-                {% else %}
-                    {% if loop.index == 1 %}
-                    <tbody>
-                    {% endif %}
-                    {% set headerArr = lines[0] %}
-                    {% set outerLoop = loop %}
-                        <tr>
-                            {% for entry in line %}
-                                {% if not loop.last %}
-                                    <td><input type="text" name="{{ outerLoop.index - 1 }}-{{ headerArr[loop.index - 1] }}" value="{{ entry }}" readonly /></td>
-                                {% else %}
-                                    <td><input type="hidden" name="{{ outerLoop.index - 1 }}-entryHash" value="{{ entry }}" /></td>
-                                {% endif %}
-                            {% endfor %}
-                            {# categorise #}
-                        </tr>
-
-                    {% if loop.index == 1 %}
-                    </tbody>
+                {% if loop.index <= 6 %}
+                    {% if loop.first %}
+                        <thead>
+                            <tr>
+                                {% for entry in line %}
+                                    {% if not loop.last %}
+                                        <th>{{ entry }}</th>
+                                    {% else %}
+                                        {# hash changed so I've just used a joined string #}
+                                        <th><input type="hidden" name="titleHash" value="{{ entry }}"/></th>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {# add the type of file #}
+                        </thead>
+                    {% else %}
+                        {% if loop.index == 1 %}
+                        <tbody>
+                        {% endif %}
+                        {% set headerArr = lines[0] %}
+                        {% set outerLoop = loop %}
+                            <tr>
+                                {% for entry in line %}
+                                    {% if not loop.last %}
+                                        <td><input type="text" name="{{ outerLoop.index - 1 }}-{{ headerArr[loop.index - 1] }}" value="{{ entry }}" readonly /></td>
+                                    {% else %}
+                                        <td><input type="hidden" name="{{ outerLoop.index - 1 }}-entryHash" value="{{ entry }}" /></td>
+                                    {% endif %}
+                                {% endfor %}
+                                {# categorise #}
+                            </tr>
+                        {% if loop.index == 1 %}
+                        </tbody>
+                        {% endif %}
+                        {% if loop.index == 6 %}
+                        <tr><td>...</td></tr>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
             {% endfor %}
         </table>
-        <button>Process</button>
+        <button class="btn btn-primary">Process</button>
     </form>
 {% endblock %}

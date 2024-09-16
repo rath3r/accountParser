@@ -67,7 +67,6 @@ def files():
 
 # process an individual file 
 # the name could be the actual file name initially and the file name as recorded in the 
-# example file 9e6295b0-2d43-4578-9968-6f5233699060.csv
 @bp.route('/file/<filename>', methods=('GET', 'POST'))
 def processFile(filename):
     lines = []
@@ -88,10 +87,10 @@ def processFile(filename):
         except FileNotFoundError:
             print(f"{filename}: does not exist")
 
-        for line in lines:
-            line.append(''.join(line))
+        #for line in lines:
+            #line.append(''.join(line))
             #print(hash(joinedRow))
-
+        print(lines[0])
         processed = False
 
     print(lines)

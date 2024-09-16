@@ -21,7 +21,7 @@
             {% if files|length > 0 %}
                 <ul>
                     {% for file in files %}
-                        <li>{{ file['title'] }}</li>
+                        <li><a href="/process/file/{{ file['title'] }}">{{ file['title'] }}</a></li>
                     {% endfor %}
                 </ul>
             {% else %}
