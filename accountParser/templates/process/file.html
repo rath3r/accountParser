@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <p>Processing: {{ file }}</p>
+    <p>Processing: {{ file['title'] }}</p>
     <table>
         {% for line in lines %}
             {% if loop.index <= 6 %}
@@ -34,14 +34,14 @@
             {% endif %}
         {% endfor %}
     </table>
-    <form action="/process/file/{{ file }}" method="post">
+    <form action="/process/file" method="post">
         <p>Please select the file type or add a new one:</p>
         <div class="mb-3">
         {% if fileTypes|length > 0 %}
             {% for fileType in fileTypes %}
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="fileTypeID" id="flexRadioDefault1">
-                <label class="form-check-label" for="fileTypeID" value="{{ fileType['id'] }}">{{ fileType['title'] }}</label>
+                <input class="form-check-input" type="radio" name="fileTypeID" id="flexRadioDefault1" value="{{ fileType['id'] }}">
+                <label class="form-check-label" for="fileTypeID">{{ fileType['title'] }}</label>
             </div>
             {% endfor %}
         {% else %}
@@ -60,6 +60,7 @@
             <label for="entryAmount" class="form-label">Please enter the the column name for entry amount:</label>
             <input type="text" class="form-control" name="entryAmount" placeholder="Entry Amount">
         </div>
+        <input type="hidden" name="fileID" value="{{ file['id'] }}" />
         <button class="btn btn-primary">Add File Type</button>
     </form>
 {% endblock %}

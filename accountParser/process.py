@@ -75,35 +75,61 @@ def files():
 
 # process an individual file 
 # the name could be the actual file name initially and the file name as recorded in the 
-@bp.route('/file/<filename>', methods=('GET', 'POST'))
-def processFile(filename):
+@bp.route('/file', methods=('GET', 'POST'))
+def processFile():
     lines = []
     fileTypes = []
+    db = get_db()
     if request.method == 'POST':
         # deal with the form
         # deal with the File Type
         title = request.form['fileTypeTitle']
         entryDescription = request.form['entryDescription']
         entryAmount = request.form['entryAmount']
+        fileID = request.form['fileID']
         
-        print(title)
+        try:
+            fileTypeID = request.form['fileTypeID']
+        except:
+            fileTypeID = False
 
-        print(entryDescription)
+        print(fileTypeID)
 
-        print(entryDescription)
-        db = get_db()
+        if not fileTypeID:
+            
+            db.execute(
+                'INSERT INTO fileTypes (title, entryDescription, entryAmount)'
+                ' VALUES (?, ?, ?)',
+                (title, entryDescription, entryAmount,)
+            )
+            db.commit()
+            
+            fileType = db.execute(
+                'SELECT id FROM fileTypes WHERE fileTypes.title = ?',
+                (title,)
+            ).fetchone()
+            fileTypeID = fileType['id']
+        
         db.execute(
-        'INSERT INTO fileTypes (title, entryDescription, entryAmount)'
-            ' VALUES (?, ?, ?)',
-            (title, entryDescription, entryAmount,)
+            'UPDATE files SET fileType_id = ? WHERE id = ?',
+            (fileTypeID, fileID)
         )
         db.commit()
 
         return redirect('/process/files')
     else:
-        
-        uploadsPath = f"{os.getcwd()}/uploads"
+        fileID = request.args.get('fileID')
 
+        db = get_db()
+        file = db.execute(
+            'SELECT * FROM files WHERE files.id = ?',
+            (fileID)
+        ).fetchone() 
+        filename = "asdf"
+        print(file['title'])
+        
+        filename = file['title']
+        uploadsPath = f"{os.getcwd()}/uploads"
         try:
             with open(f"{uploadsPath}/{filename}") as csvfile:
                 fileReader = csv.reader(csvfile)
@@ -111,7 +137,7 @@ def processFile(filename):
                     lines.append(row)
         except FileNotFoundError:
             print(f"{filename}: does not exist")
-
+        
         fileTypes = getFileTypes();
 
-    return render_template('process/file.html', file=filename, lines=lines, fileTypes=fileTypes)
+    return render_template('process/file.html', file=file, lines=lines, fileTypes=fileTypes)

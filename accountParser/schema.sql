@@ -5,9 +5,7 @@ files - to list processed files
 
 DROP TABLE IF EXISTS accountEntries;
 DROP TABLE IF EXISTS fileTypes;
-/*
 DROP TABLE IF EXISTS files;
-*/
 
 CREATE TABLE accountEntries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,17 +17,14 @@ CREATE TABLE accountEntries (
     dateUpdated INTEGER
 );
 
-/*
 CREATE TABLE files (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
   dateUploaded TEXT,
   dateUpdated TEXT,
-  type TEXT,
   processed INTEGER,
   fileType_id INTEGER
 );
-*/
 
 CREATE TABLE fileTypes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,6 +32,7 @@ CREATE TABLE fileTypes (
   entryDescription TEXT,
   entryAmount TEXT
 )
+
 /*
 CREATE TABLE categories (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
