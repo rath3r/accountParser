@@ -81,11 +81,27 @@ def processFile(filename):
     fileTypes = []
     if request.method == 'POST':
         # deal with the form
-        print(request.form)
-        processed = True
+        # deal with the File Type
+        title = request.form['fileTypeTitle']
+        entryDescription = request.form['entryDescription']
+        entryAmount = request.form['entryAmount']
+        
+        print(title)
 
-        redirect(url_for('process.files'))
+        print(entryDescription)
+
+        print(entryDescription)
+        db = get_db()
+        db.execute(
+        'INSERT INTO fileTypes (title, entryDescription, entryAmount)'
+            ' VALUES (?, ?, ?)',
+            (title, entryDescription, entryAmount,)
+        )
+        db.commit()
+
+        return redirect('/process/files')
     else:
+        
         uploadsPath = f"{os.getcwd()}/uploads"
 
         try:
@@ -97,10 +113,5 @@ def processFile(filename):
             print(f"{filename}: does not exist")
 
         fileTypes = getFileTypes();
-        #for line in lines:
-            #line.append(''.join(line))
-            #print(hash(joinedRow))
-        #print(lines[0])
-        processed = False
 
-    return render_template('process/file.html', processed=processed, file=filename, lines=lines, fileTypes=fileTypes)
+    return render_template('process/file.html', file=filename, lines=lines, fileTypes=fileTypes)

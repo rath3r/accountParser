@@ -16,24 +16,16 @@
                                 <th>{{ entry }}</th>
                             {% endfor %}
                         </tr>
-                        {# add the type of file #}
                     </thead>
                 {% else %}
                     {% if loop.index == 1 %}
                     <tbody>
                     {% endif %}
-                    {% set headerArr = lines[0] %}
-                    {% set outerLoop = loop %}
-                        <tr>
-                            {% for entry in line %}
-                                {% if not loop.last %}
-                                    <td>{{ entry }}</td>
-                                {% else %}
-                                    <td><input type="hidden" name="{{ outerLoop.index - 1 }}-entryHash" value="{{ entry }}" /></td>
-                                {% endif %}
-                            {% endfor %}
-                            {# categorise #}
-                        </tr>
+                    <tr>
+                        {% for entry in line %}
+                            <td>{{ entry }}</td>
+                        {% endfor %}
+                    </tr>
                     {% if loop.index == 6 %}
                         <tr><td>...</td></tr>
                     </tbody>
@@ -44,26 +36,28 @@
     </table>
     <form action="/process/file/{{ file }}" method="post">
         <p>Please select the file type or add a new one:</p>
+        <div class="mb-3">
         {% if fileTypes|length > 0 %}
             {% for fileType in fileTypes %}
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="fileTypeID" id="flexRadioDefault1">
                 <label class="form-check-label" for="fileTypeID" value="{{ fileType['id'] }}">{{ fileType['title'] }}</label>
-              </div>
+            </div>
             {% endfor %}
+        {% else %}
+            <p>No File Types added yet.</p>
         {% endif %}
+        </div>
         <div class="mb-3">
             <label for="fileTypeTitle" class="form-label">File Type</label>
             <input type="text" class="form-control" name="fileTypeTitle" placeholder="File Type">
         </div>
-        <p>Please enter the column name for the Entry desciption:</p>
         <div class="mb-3">
-            <label for="entryDescription" class="form-label">File Type</label>
+            <label for="entryDescription" class="form-label">Please enter the column name for the Entry desciption:</label>
             <input type="text" class="form-control" name="entryDescription" placeholder="Entry Description">
         </div>
-        <p>Please enter the the column name for entry amount:</p>
         <div class="mb-3">
-            <label for="entryAmount" class="form-label">File Type</label>
+            <label for="entryAmount" class="form-label">Please enter the the column name for entry amount:</label>
             <input type="text" class="form-control" name="entryAmount" placeholder="Entry Amount">
         </div>
         <button class="btn btn-primary">Add File Type</button>
