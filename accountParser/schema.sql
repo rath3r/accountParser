@@ -4,6 +4,7 @@ files - to list processed files
 */
 
 DROP TABLE IF EXISTS accountEntries;
+DROP TABLE IF EXISTS fileTypes;
 /*
 DROP TABLE IF EXISTS files;
 */
@@ -25,13 +26,16 @@ CREATE TABLE files (
   dateUploaded TEXT,
   dateUpdated TEXT,
   type TEXT,
-  processed INTEGER
+  processed INTEGER,
+  fileType_id INTEGER
 );
 */
 
 CREATE TABLE fileTypes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT
+  title TEXT,
+  entryDescription TEXT,
+  entryAmount TEXT
 )
 /*
 CREATE TABLE categories (
@@ -39,28 +43,3 @@ CREATE TABLE categories (
   title TEXT NOT NULL
 )
 */
-
-
-/*
-
-Original example:
-
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
-
-CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
-);
-
-CREATE TABLE post (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  author_id INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id)
-);
-*/
-

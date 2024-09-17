@@ -78,6 +78,7 @@ def files():
 @bp.route('/file/<filename>', methods=('GET', 'POST'))
 def processFile(filename):
     lines = []
+    fileTypes = []
     if request.method == 'POST':
         # deal with the form
         print(request.form)
@@ -102,5 +103,4 @@ def processFile(filename):
         #print(lines[0])
         processed = False
 
-    print(lines)
     return render_template('process/file.html', processed=processed, file=filename, lines=lines, fileTypes=fileTypes)

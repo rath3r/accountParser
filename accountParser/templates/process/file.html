@@ -47,12 +47,25 @@
         {% if fileTypes|length > 0 %}
             {% for fileType in fileTypes %}
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">{{ fileType['title'] }}</label>
+                <input class="form-check-input" type="radio" name="fileTypeID" id="flexRadioDefault1">
+                <label class="form-check-label" for="fileTypeID" value="{{ fileType['id'] }}">{{ fileType['title'] }}</label>
               </div>
             {% endfor %}
         {% endif %}
-        <input class="mb-3" type="text" name="fileType" />
-        <button class="btn btn-primary">Process</button>
+        <div class="mb-3">
+            <label for="fileTypeTitle" class="form-label">File Type</label>
+            <input type="text" class="form-control" name="fileTypeTitle" placeholder="File Type">
+        </div>
+        <p>Please enter the column name for the Entry desciption:</p>
+        <div class="mb-3">
+            <label for="entryDescription" class="form-label">File Type</label>
+            <input type="text" class="form-control" name="entryDescription" placeholder="Entry Description">
+        </div>
+        <p>Please enter the the column name for entry amount:</p>
+        <div class="mb-3">
+            <label for="entryAmount" class="form-label">File Type</label>
+            <input type="text" class="form-control" name="entryAmount" placeholder="Entry Amount">
+        </div>
+        <button class="btn btn-primary">Add File Type</button>
     </form>
 {% endblock %}
