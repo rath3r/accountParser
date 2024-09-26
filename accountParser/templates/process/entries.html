@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h2>{% block title %}Entries{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Processing: {{ file['title'] }}</p>
+    <table>
+        {% for line in lines %}
+            {% if loop.index <= 6 %}
+                {% if loop.first %}
+                    <thead>
+                        <tr>
+                            {% for entry in line %}
+                                <th>{{ entry }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                {% else %}
+                    {% if loop.index == 1 %}
+                    <tbody>
+                    {% endif %}
+                    <tr>
+                        {% for entry in line %}
+                            <td>{{ entry }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% if loop.index == 6 %}
+                        <tr><td>...</td></tr>
+                    </tbody>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </table>
+    <form action="/process/file" method="post">
+        <p>Please select the file type or add a new one:</p>
+        <div class="mb-3">
+        {% if fileTypes|length > 0 %}
+            {% for fileType in fileTypes %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="fileTypeID" id="flexRadioDefault1" value="{{ fileType['id'] }}">
+                <label class="form-check-label" for="fileTypeID">{{ fileType['title'] }}</label>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No File Types added yet.</p>
+        {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="fileTypeTitle" class="form-label">File Type</label>
+            <input type="text" class="form-control" name="fileTypeTitle" placeholder="File Type">
+        </div>
+        <div class="mb-3">
+            <label for="entryDescription" class="form-label">Please enter the column name for the Entry desciption:</label>
+            <input type="text" class="form-control" name="entryDescription" placeholder="Entry Description">
+        </div>
+        <div class="mb-3">
+            <label for="entryAmount" class="form-label">Please enter the the column name for entry amount:</label>
+            <input type="text" class="form-control" name="entryAmount" placeholder="Entry Amount">
+        </div>
+        <input type="hidden" name="fileID" value="{{ file['id'] }}" />
+        <button class="btn btn-primary">Add File Type</button>
+    </form>
+{% endblock %}

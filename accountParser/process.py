@@ -31,6 +31,28 @@ def getFileTypes():
  
     return fileTypes
 
+def readEntryCSV(filename):
+    lines = []
+    uploadsPath = f"{os.getcwd()}/uploads"
+    try:
+        with open(f"{uploadsPath}/{filename}") as csvfile:
+            fileReader = csv.reader(csvfile)
+            for row in fileReader:
+                lines.append(row)
+    except FileNotFoundError:
+        print(f"{filename}: does not exist")
+
+    return lines
+
+def getFileByID(id):
+    db = get_db()
+    file = db.execute(
+        'SELECT * FROM files WHERE files.id = ?',
+        (id)
+    ).fetchone()
+
+    return file
+
 @bp.route('/')
 def index():
 
@@ -118,26 +140,19 @@ def processFile():
 
         return redirect('/process/files')
     else:
-        fileID = request.args.get('fileID')
-
-        db = get_db()
-        file = db.execute(
-            'SELECT * FROM files WHERE files.id = ?',
-            (fileID)
-        ).fetchone() 
-        filename = "asdf"
-        print(file['title'])
-        
-        filename = file['title']
-        uploadsPath = f"{os.getcwd()}/uploads"
-        try:
-            with open(f"{uploadsPath}/{filename}") as csvfile:
-                fileReader = csv.reader(csvfile)
-                for row in fileReader:
-                    lines.append(row)
-        except FileNotFoundError:
-            print(f"{filename}: does not exist")
-        
-        fileTypes = getFileTypes();
+        file = getFileByID(request.args.get('fileID'))
+        lines = readEntryCSV(file['title'])
+        fileTypes = getFileTypes()
 
     return render_template('process/file.html', file=file, lines=lines, fileTypes=fileTypes)
+
+@bp.route('/entries', methods=('GET', 'POST'))
+def processEntries():
+    file = getFileByID(request.args.get('fileID'))
+    lines = readEntryCSV(file['title'])
+
+    # check if this file has entries in the accountEntries table
+
+    # handle the submit by adding the categories
+
+    return render_template('process/entries.html', file=file, lines=lines)
