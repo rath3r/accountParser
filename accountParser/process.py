@@ -7,6 +7,7 @@ from flask import (
 from werkzeug.utils import secure_filename
 from accountParser.db import get_db
 from datetime import datetime
+from accountParser.categories import getCategories
 
 class file():
     def __init__(self, name, location):
@@ -52,6 +53,16 @@ def getFileByID(id):
     ).fetchone()
 
     return file
+
+def getFileTypeById(id):
+    print(id)
+    db = get_db()
+    fileType = db.execute(
+        'SELECT * FROM fileTypes WHERE fileTypes.id = ?',
+        (id)
+    ).fetchone()
+
+    return fileType
 
 @bp.route('/')
 def index():
@@ -150,9 +161,20 @@ def processFile():
 def processEntries():
     file = getFileByID(request.args.get('fileID'))
     lines = readEntryCSV(file['title'])
+    categories = getCategories()
+    fileTypeID = file['fileType_id']
+    print(type(fileTypeID))
+    #fileType = getFileTypeById(fileTypeID)
+
+    #print(lines)
+    # get the file type information 
+    # the column to be used for description and amount
+    #print(fileType)
+
+    # arrange the lines array to only show (date, description, amount and a dropdown of categories)
 
     # check if this file has entries in the accountEntries table
 
     # handle the submit by adding the categories
 
-    return render_template('process/entries.html', file=file, lines=lines)
+    return render_template('process/entries.html', file=file, lines=lines, categories=categories)

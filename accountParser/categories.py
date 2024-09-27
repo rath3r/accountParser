@@ -11,12 +11,17 @@ class file():
 
 bp = Blueprint('categories', __name__, url_prefix='/categories')
 
-@bp.route('/', methods=('GET', 'POST'))
-def files():
+def getCategories():
     db = get_db()
     categories = db.execute(
         'SELECT * FROM categories'
     ).fetchall()
+
+    return categories
+
+@bp.route('/', methods=('GET', 'POST'))
+def files():
+    categories = getCategories()
 
     return render_template('categories/index.html', categories=categories)
 
