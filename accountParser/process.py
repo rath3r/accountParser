@@ -59,8 +59,8 @@ def getFileTypeById(id):
     db = get_db()
     fileType = db.execute(
         'SELECT * FROM fileTypes WHERE fileTypes.id = ?',
-        (id)
-    ).fetchone()
+        (id,)
+    )
 
     return fileType
 
@@ -164,7 +164,7 @@ def processEntries():
     categories = getCategories()
     fileTypeID = file['fileType_id']
     print(type(fileTypeID))
-    #fileType = getFileTypeById(fileTypeID)
+    fileType = getFileTypeById(fileTypeID)
 
     #print(lines)
     # get the file type information 
