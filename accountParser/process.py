@@ -60,7 +60,7 @@ def getFileTypeById(id):
     fileType = db.execute(
         'SELECT * FROM fileTypes WHERE fileTypes.id = ?',
         (id,)
-    )
+    ).fetchone()
 
     return fileType
 
@@ -159,22 +159,36 @@ def processFile():
 
 @bp.route('/entries', methods=('GET', 'POST'))
 def processEntries():
-    file = getFileByID(request.args.get('fileID'))
-    lines = readEntryCSV(file['title'])
-    categories = getCategories()
-    fileTypeID = file['fileType_id']
-    print(type(fileTypeID))
-    fileType = getFileTypeById(fileTypeID)
+    if request.method == 'POST':
+        
+        print('form')
+    else:
+        file = getFileByID(request.args.get('fileID'))
+        lines = readEntryCSV(file['title'])
+        categories = getCategories()
+        fileTypeID = file['fileType_id']
+        fileType = getFileTypeById(fileTypeID)
+        entriesArr = []
 
-    #print(lines)
-    # get the file type information 
-    # the column to be used for description and amount
-    #print(fileType)
-
-    # arrange the lines array to only show (date, description, amount and a dropdown of categories)
+        descriptionIndex = 0
+        amountIndex = 0
+        for i, line in enumerate(lines):
+            if i == 0:
+                for j, el in enumerate(line):
+                    if el == fileType['entryDescription']:
+                        descriptionIndex = j
+                    if el == fileType['entryAmount']:
+                        amountIndex = j
+                    #print(el)
+            else:
+                lineArr = []
+                lineArr.append(line[0])
+                lineArr.append(line[descriptionIndex])
+                lineArr.append(line[amountIndex])
+                entriesArr.append(lineArr)
 
     # check if this file has entries in the accountEntries table
 
     # handle the submit by adding the categories
 
-    return render_template('process/entries.html', file=file, lines=lines, categories=categories)
+    return render_template('process/entries.html', file=file, lines=entriesArr, categories=categories)

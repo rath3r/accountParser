@@ -8,7 +8,7 @@
     <p>Processing: {{ file['title'] }}</p>
     <p>Please categorise each entry of this file:</p>
     <form action="/process/entries" method="post">
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -20,13 +20,21 @@
             <tbody>
                 {% for line in lines %}
                     <tr>
-                        {% for entry in line %}
-                            <td>{{ entry }}</td>
-                        {% endfor %}
+                        <td>{{ line[0] }}
+                            <input type="hidden" name="date-" value="{{ entry }}">
+                        </td>
+                        <td>
+                            <select class="form-control">
+                                <option>Select a category</option>
+                                {% for category in categories %}
+                                    <option value="{{ category['id'] }}">{{ category['title'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <button class="btn btn-primary">Add File Type</button>
+        <button class="btn btn-primary">Add Entries</button>
     </form>
 {% endblock %}
