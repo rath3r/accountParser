@@ -55,7 +55,6 @@ def getFileByID(id):
     return file
 
 def getFileTypeById(id):
-    print(id)
     db = get_db()
     fileType = db.execute(
         'SELECT * FROM fileTypes WHERE fileTypes.id = ?',
@@ -63,6 +62,20 @@ def getFileTypeById(id):
     ).fetchone()
 
     return fileType
+
+def checkForEntriesByFile(id):
+    db = get_db()
+    count = db.execute(
+        'SELECT COUNT() FROM accountEntries WHERE accountEntries.file_id = ?',
+        (id,)
+    ).fetchone()
+
+    if count[0] > 0:
+        check = True
+    else:
+        check = False
+
+    return check
 
 @bp.route('/')
 def index():
@@ -160,10 +173,19 @@ def processFile():
 @bp.route('/entries', methods=('GET', 'POST'))
 def processEntries():
     if request.method == 'POST':
-        
-        print('form')
+        print(request.form)
+        entriesArr = []
+        for i, input in enumerate(request.form):
+            #if i % 3:
+            print(input)
+                #print(input[i])
+                #print(input[i])
+                #rowArr = []
+                #rowArr.append(input[''])
     else:
-        file = getFileByID(request.args.get('fileID'))
+        fileID = request.args.get('fileID')
+        file = getFileByID(fileID)
+        fileProcessed = checkForEntriesByFile(fileID)
         lines = readEntryCSV(file['title'])
         categories = getCategories()
         fileTypeID = file['fileType_id']
@@ -191,4 +213,11 @@ def processEntries():
 
     # handle the submit by adding the categories
 
-    return render_template('process/entries.html', file=file, lines=entriesArr, categories=categories)
+    return render_template('process/entries.html', file=file, fileProcessed=fileProcessed, lines=entriesArr, categories=categories)
+
+
+@bp.route('/categorize', methods=('GET', 'POST'))
+def categorizeEntries():
+
+
+    return render_template('process/categorize.html')

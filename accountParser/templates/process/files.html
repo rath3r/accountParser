@@ -21,7 +21,7 @@
             {% if files|length > 0 %}
                 <ul>
                     {% for file in files %}
-                        <li>{{ file['title'] }}<a class="ms-2" href="/process/file?fileID={{ file['id'] }}">File Type</a><a class="ms-2" href="/process/entries?fileID={{ file['id'] }}">Entries</a></li>
+                        <li>{{ file['title'] }}<a class="ms-2" href="/process/file?fileID={{ file['id'] }}">File Type</a><a class="ms-2" href="/process/entries?fileID={{ file['id'] }}">Entries</a><a class="ms-2" href="/process/categorize?fileID={{ file['id'] }}">Categorize</a></li>
                     {% endfor %}
                 </ul>
             {% else %}

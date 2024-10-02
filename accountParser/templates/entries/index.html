@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h2>{% block title %}Entries{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8">
+            <p>These are the Entries.</p>
+        </div>
+        <div class="col">
+            <p>Should this page have the maths?</p>
+        </div>
+    </div>    
+    {% endblock %}
