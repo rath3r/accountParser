@@ -26,15 +26,15 @@
                     <tr>
                         <td>
                             {{ line[0] }}
-                            <input type="hidden" name="date-{{ loop.index0}}" value="{{ line[0] }}">
+                            <input type="hidden" name="{{ loop.index0 }}-date" value="{{ line[0] }}">
                         </td>
                         <td>
                             {{ line[1] }}
-                            <input type="hidden" name="description-{{ loop.index0}}" value="{{ line[1] }}">
+                            <input type="hidden" name="{{ loop.index0 }}-description" value="{{ line[1] }}">
                         </td>
                         <td>
                             {{ line[2] }}
-                            <input type="hidden" name="amount-{{ loop.index0}}" value="{{ line[2] }}">
+                            <input type="hidden" name="{{ loop.index0 }}-amount" value="{{ line[2] }}">
                         </td>
                     </tr>
                 {% endfor %}

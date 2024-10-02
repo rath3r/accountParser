@@ -173,15 +173,16 @@ def processFile():
 @bp.route('/entries', methods=('GET', 'POST'))
 def processEntries():
     if request.method == 'POST':
-        print(request.form)
+        #print(request.form)
         entriesArr = []
         for i, input in enumerate(request.form):
-            #if i % 3:
-            print(input)
-                #print(input[i])
-                #print(input[i])
-                #rowArr = []
-                #rowArr.append(input[''])
+            if str(i) + "-date" in request.form:
+                rowDict = {}
+                rowDict['date'] = request.form.get(str(i) + "-date")
+                rowDict['description'] = request.form.get(str(i) + "-description")
+                rowDict['amount'] = request.form.get(str(i) + "-amount")
+                entriesArr.append(rowDict)
+        print(entriesArr)
     else:
         fileID = request.args.get('fileID')
         file = getFileByID(fileID)
