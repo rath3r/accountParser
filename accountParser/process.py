@@ -174,6 +174,7 @@ def processFile():
 def processEntries():
     if request.method == 'POST':
         #print(request.form)
+        fileID = request.form.get('fileID')
         entriesArr = []
         for i, input in enumerate(request.form):
             if str(i) + "-date" in request.form:
@@ -182,7 +183,24 @@ def processEntries():
                 rowDict['description'] = request.form.get(str(i) + "-description")
                 rowDict['amount'] = request.form.get(str(i) + "-amount")
                 entriesArr.append(rowDict)
-        print(entriesArr)
+
+        #print(entriesArr)
+        for entry in entriesArr:
+            print(entry['date'])
+            print(entry['description'])
+            print(entry['amount'])
+            print(fileID)
+            print(datetime.now())
+            db = get_db()
+            db.execute(
+                'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated)'
+                ' VALUES (?, ?, ?, ?, ?)',
+                (entry['description'], entry['amount'], fileID, datetime.now(), datetime.now())
+            )
+            db.commit()
+
+        return redirect('/entries')
+
     else:
         fileID = request.args.get('fileID')
         file = getFileByID(fileID)

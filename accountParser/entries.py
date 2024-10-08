@@ -19,5 +19,9 @@ bp = Blueprint('entries', __name__, url_prefix='/entries')
 
 @bp.route('/')
 def index():
+    db = get_db()
+    entries = db.execute(
+        'SELECT * FROM accountEntries'
+    ).fetchall()
 
-    return render_template('entries/index.html')
+    return render_template('entries/index.html', entries=entries)

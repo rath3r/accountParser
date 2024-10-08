@@ -8,6 +8,38 @@
     <div class="row">
         <div class="col-lg-8">
             <p>These are the Entries.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>File ID</th>
+                        <th>Category ID</th>
+                        <th>Date Added</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if entries|length > 0 %}
+                        {% for entry in entries %}
+                            <tr>
+                                <td>{{ entry['id'] }}</td>
+                                <td>{{ entry['description'] }}</td>
+                                <td>{{ entry['amount'] }}</td>
+                                <td>{{ entry['file_id'] }}</td>
+                                <td>{{ entry['category_id'] }}</td>
+                                <td>{{ entry['dateAdded'] }}</td>
+                                <td>{{ entry['dateUpdated'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7">There are no entries added yet.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
         <div class="col">
             <p>Should this page have the maths?</p>

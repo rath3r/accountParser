@@ -31,9 +31,10 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import process, home, categories
+    from . import process, home, categories, entries
     app.register_blueprint(home.bp)
     app.register_blueprint(process.bp)
     app.register_blueprint(categories.bp)
+    app.register_blueprint(entries.bp)
     
     return app
