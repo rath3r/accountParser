@@ -24,6 +24,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/categories">Categories</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/entries">Entries</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -33,7 +36,7 @@
                 {% block header %}{% endblock %}
             </header>
             {% for message in get_flashed_messages() %}
-                <div class="flash">{{ message }}</div>
+                <div class="alert alert-warning flash" role="alert">{{ message }}</div>
             {% endfor %}
             {% block content %}{% endblock %}
         </section>

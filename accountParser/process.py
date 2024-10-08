@@ -86,15 +86,20 @@ def index():
 def files():
     if request.method == 'POST':
         # check if the post request has the file part
+        print("files")
+
         if 'file' not in request.files:
             flash('No file part')
+
             return redirect(request.url)
+        
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+        
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
@@ -111,6 +116,10 @@ def files():
             db.commit()
             
             return redirect('/process/files')
+        else:
+            flash('File type not supported')
+
+            return redirect(request.url)
     
     db = get_db()
     files = db.execute(
@@ -186,16 +195,16 @@ def processEntries():
 
         #print(entriesArr)
         for entry in entriesArr:
-            print(entry['date'])
-            print(entry['description'])
-            print(entry['amount'])
-            print(fileID)
-            print(datetime.now())
+            if entry['amount'] == '':
+                amount = 0
+            else:
+                amount = abs(float(entry['amount']))
+
             db = get_db()
             db.execute(
-                'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated)'
-                ' VALUES (?, ?, ?, ?, ?)',
-                (entry['description'], entry['amount'], fileID, datetime.now(), datetime.now())
+                'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated, date)'
+                ' VALUES (?, ?, ?, ?, ?, ?)',
+                (entry['description'], amount, fileID, datetime.now(), datetime.now(), entry['date'])
             )
             db.commit()
 
@@ -223,6 +232,7 @@ def processEntries():
                     #print(el)
             else:
                 lineArr = []
+                # I need to add the entry date!!!
                 lineArr.append(line[0])
                 lineArr.append(line[descriptionIndex])
                 lineArr.append(line[amountIndex])
