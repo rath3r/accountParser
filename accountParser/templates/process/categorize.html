@@ -6,49 +6,53 @@
 
 {% block content %}
     <p>Processing: {{ file['title'] }}</p>
-    <p>Please categorize each entry of this file:</p>
-    <form action="/process/categorize" method="post">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Category</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for line in lines %}
+    {% if linesArr|length == 0 %}
+        <p>No entries have been added for this file yet!</p>
+    {% else %}
+        <p>Please categorize each entry of this file:</p>
+        <form action="/process/categorize" method="post">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            {{ line[0] }}
-                            <input type="hidden" name="date-{{ loop.index0}}" value="{{ entry }}">
-                        </td>
-                        <td>
-                            {{ line[0] }}
-                            <input type="hidden" name="date-{{ loop.index0}}" value="{{ entry }}">
-                        </td>
-                        <td>
-                            {{ line[1] }}
-                            <input type="hidden" name="description-{{ loop.index0}}" value="{{ entry }}">
-                        </td>
-                        <td>
-                            {{ line[2] }}
-                            <input type="hidden" name="amount-{{ loop.index0}}" value="{{ entry }}">
-                        </td>
-                        <td>
-                            <select class="form-control">
-                                <option>Select a category</option>
-                                {% for category in categories %}
-                                    <option value="{{ category['id'] }}">{{ category['title'] }}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <button class="btn btn-primary">CategorizeEntries</button>
-    </form>
+                </thead>
+                <tbody>
+                    {% for line in lines %}
+                        <tr>
+                            <td>
+                                {{ line[0] }}
+                                <input type="hidden" name="date-{{ loop.index0}}" value="{{ entry }}">
+                            </td>
+                            <td>
+                                {{ line[0] }}
+                                <input type="hidden" name="date-{{ loop.index0}}" value="{{ entry }}">
+                            </td>
+                            <td>
+                                {{ line[1] }}
+                                <input type="hidden" name="description-{{ loop.index0}}" value="{{ entry }}">
+                            </td>
+                            <td>
+                                {{ line[2] }}
+                                <input type="hidden" name="amount-{{ loop.index0}}" value="{{ entry }}">
+                            </td>
+                            <td>
+                                <select class="form-control">
+                                    <option>Select a category</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category['id'] }}">{{ category['title'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-primary">CategorizeEntries</button>
+        </form>
+    {% endif %}
 {% endblock %}

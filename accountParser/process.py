@@ -77,6 +77,15 @@ def checkForEntriesByFile(id):
 
     return check
 
+def getEntriesByFileID(id):
+    db = get_db()
+    entries = db.execute(
+        'SELECT * FROM accountEntries WHERE accountEntries.file_id = ?',
+        (id,)
+    ).fetchall()
+
+    return entries
+
 @bp.route('/')
 def index():
 
@@ -248,6 +257,17 @@ def processEntries():
 
 @bp.route('/categorize', methods=('GET', 'POST'))
 def categorizeEntries():
+    fileID = request.args.get('fileID')
+    file = getFileByID(fileID)
+    categories = getCategories()
+    fileProcessed = checkForEntriesByFile(fileID)
+    lines = []
+    print(checkForEntriesByFile(fileID))
+    if checkForEntriesByFile(fileID):
+        entries = getEntriesByFileID(fileID)
+        print(entries)
 
+        test = "test"
+    
 
-    return render_template('process/categorize.html')
+    return render_template('process/categorize.html', file=file, fileProcessed=fileProcessed, lines=entries, categories=categories)
