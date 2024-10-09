@@ -222,6 +222,7 @@ def processEntries():
 
         descriptionIndex = 0
         amountIndex = 0
+        entryDate = 0
         for i, line in enumerate(lines):
             if i == 0:
                 for j, el in enumerate(line):
@@ -229,11 +230,11 @@ def processEntries():
                         descriptionIndex = j
                     if el == fileType['entryAmount']:
                         amountIndex = j
-                    #print(el)
+                    if el == fileType['entryDate']:
+                        entryDate = j
             else:
                 lineArr = []
-                # I need to add the entry date!!!
-                lineArr.append(line[0])
+                lineArr.append(line[entryDate])
                 lineArr.append(line[descriptionIndex])
                 lineArr.append(line[amountIndex])
                 entriesArr.append(lineArr)
