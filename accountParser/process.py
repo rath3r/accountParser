@@ -86,6 +86,14 @@ def getEntriesByFileID(id):
 
     return entries
 
+def updateAccountEntryCategory(entryID, catID):
+    db = get_db()
+    db.execute(
+        'UPDATE accountEntries SET category_id = ? WHERE id = ?',
+        (catID, entryID)
+    )
+    db.commit()
+
 def formatDate(dateStr):
     # this should have been done when inserting the date into the DB
     #if datetime.strptime(dateStr, "%d/%m/%Y"):
@@ -269,7 +277,13 @@ def categorizeEntries():
     if request.method == 'POST':
         print('post')
 
-        print(request.form)
+        print(request.form.getlist('category'))
+        for option in request.form.getlist('category'):
+            if not option == "Select a category":
+                optionArr = option.split('-')
+                entryID = optionArr[0]
+                catID = optionArr[1]
+                updateAccountEntryCategory(entryID, catID)
 
         return redirect('/entries')
     
@@ -291,6 +305,8 @@ def categorizeEntries():
                 entryArr.append(formatDate(entry['date']))
                 entryArr.append(entry['description'])
                 entryArr.append(entry['amount'])
+                # the category ID if available could be added here
+                # to allow for a selected value on the form
                 entriesArr.append(entryArr)
 
     return render_template('process/categorize.html', file=file, fileProcessed=fileProcessed, lines=entriesArr, categories=categories)
