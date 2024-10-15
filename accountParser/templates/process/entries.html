@@ -7,9 +7,7 @@
 {% block content %}
     <p>Processing: {{ file['title'] }}</p>
     {% if fileProcessed %}
-        <div class="callout-warning">
-            <p>This file has already been processed!</p>
-        </div>
+        <div class="alert alert-warning callout-warning">This file has already been processed!</div>
     {% endif %}
     <p>Please categorise each entry of this file:</p>
     <form action="/process/entries" method="post">

@@ -6,7 +6,7 @@
 
 {% block content %}
     <p>Processing: {{ file['title'] }}</p>
-    {% if linesArr|length == 0 %}
+    {% if lines|length == 0 %}
         <p>No entries have been added for this file yet!</p>
     {% else %}
         <p>Please categorize each entry of this file:</p>
@@ -26,25 +26,21 @@
                         <tr>
                             <td>
                                 {{ line[0] }}
-                                <input type="hidden" name="date-{{ loop.index0}}" value="{{ entry }}">
-                            </td>
-                            <td>
-                                {{ line[0] }}
-                                <input type="hidden" name="date-{{ loop.index0}}" value="{{ entry }}">
                             </td>
                             <td>
                                 {{ line[1] }}
-                                <input type="hidden" name="description-{{ loop.index0}}" value="{{ entry }}">
                             </td>
                             <td>
                                 {{ line[2] }}
-                                <input type="hidden" name="amount-{{ loop.index0}}" value="{{ entry }}">
                             </td>
                             <td>
-                                <select class="form-control">
+                                {{ line[3] }}
+                            </td>
+                            <td>
+                                <select class="form-control" name="category">
                                     <option>Select a category</option>
                                     {% for category in categories %}
-                                        <option value="{{ category['id'] }}">{{ category['title'] }}</option>
+                                        <option value="{{ line[0] }}-{{ category['id'] }}">{{ category['title'] }}</option>
                                     {% endfor %}
                                 </select>
                             </td>

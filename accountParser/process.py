@@ -86,6 +86,15 @@ def getEntriesByFileID(id):
 
     return entries
 
+def formatDate(dateStr):
+    # this should have been done when inserting the date into the DB
+    #if datetime.strptime(dateStr, "%d/%m/%Y"):
+    #    date = datetime.strptime(dateStr, "%d/%m/%Y")
+    #else:
+    #    date = 'thomas'
+
+    return dateStr
+
 @bp.route('/')
 def index():
 
@@ -213,7 +222,7 @@ def processEntries():
             db.execute(
                 'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated, date)'
                 ' VALUES (?, ?, ?, ?, ?, ?)',
-                (entry['description'], amount, fileID, datetime.now(), datetime.now(), entry['date'])
+                (entry['description'], amount, fileID, datetime.now(), datetime.now(), formatDate(entry['date']))
             )
             db.commit()
 
@@ -257,17 +266,31 @@ def processEntries():
 
 @bp.route('/categorize', methods=('GET', 'POST'))
 def categorizeEntries():
-    fileID = request.args.get('fileID')
-    file = getFileByID(fileID)
-    categories = getCategories()
-    fileProcessed = checkForEntriesByFile(fileID)
-    lines = []
-    print(checkForEntriesByFile(fileID))
-    if checkForEntriesByFile(fileID):
-        entries = getEntriesByFileID(fileID)
-        print(entries)
+    if request.method == 'POST':
+        print('post')
 
-        test = "test"
+        print(request.form)
+
+        return redirect('/entries')
     
+    else:
+        fileID = request.args.get('fileID')
+        file = getFileByID(fileID)
+        categories = getCategories()
+        # could add in a check for category IDS on entries from a file
+        fileProcessed = checkForEntriesByFile(fileID)
+        lines = []
 
-    return render_template('process/categorize.html', file=file, fileProcessed=fileProcessed, lines=entries, categories=categories)
+        if checkForEntriesByFile(fileID):
+            entries = getEntriesByFileID(fileID)
+            entriesArr = []
+
+            for entry in entries:
+                entryArr = []
+                entryArr.append(entry['id'])
+                entryArr.append(formatDate(entry['date']))
+                entryArr.append(entry['description'])
+                entryArr.append(entry['amount'])
+                entriesArr.append(entryArr)
+
+    return render_template('process/categorize.html', file=file, fileProcessed=fileProcessed, lines=entriesArr, categories=categories)
