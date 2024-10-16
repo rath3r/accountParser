@@ -40,7 +40,7 @@
                                 <select class="form-control" name="category">
                                     <option>Select a category</option>
                                     {% for category in categories %}
-                                        <option value="{{ line[0] }}-{{ category['id'] }}">{{ category['title'] }}</option>
+                                        <option value="{{ line[0] }}-{{ category['id'] }}" {% if line[4] == category['id'] %}selected{% endif %}>{{ category['title'] }}</option>
                                     {% endfor %}
                                 </select>
                             </td>

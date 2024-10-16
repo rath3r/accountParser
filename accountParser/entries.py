@@ -17,11 +17,31 @@ class file():
 
 bp = Blueprint('entries', __name__, url_prefix='/entries')
 
-@bp.route('/')
-def index():
+def getAllEntries():
+
     db = get_db()
     entries = db.execute(
-        'SELECT * FROM accountEntries'
+    """
+    SELECT
+        accountEntries.id,
+        accountEntries.date,
+        accountEntries.description,
+        accountEntries.amount,
+        accountEntries.file_id,
+        categories.title,
+        accountEntries.dateAdded
+    FROM
+        accountEntries
+    JOIN
+        categories
+    ON
+        accountEntries.category_id = categories.id;
+    """
     ).fetchall()
 
+    return entries
+
+@bp.route('/')
+def index():
+    entries = getAllEntries()
     return render_template('entries/index.html', entries=entries)

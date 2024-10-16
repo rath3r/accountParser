@@ -284,6 +284,8 @@ def categorizeEntries():
                 entryID = optionArr[0]
                 catID = optionArr[1]
                 updateAccountEntryCategory(entryID, catID)
+            else:
+                updateAccountEntryCategory(option[0], 0)
 
         return redirect('/entries')
     
@@ -305,8 +307,7 @@ def categorizeEntries():
                 entryArr.append(formatDate(entry['date']))
                 entryArr.append(entry['description'])
                 entryArr.append(entry['amount'])
-                # the category ID if available could be added here
-                # to allow for a selected value on the form
+                entryArr.append(entry['category_id'])
                 entriesArr.append(entryArr)
 
     return render_template('process/categorize.html', file=file, fileProcessed=fileProcessed, lines=entriesArr, categories=categories)

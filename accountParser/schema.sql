@@ -14,7 +14,21 @@ CREATE TABLE accountEntries (
     file_id INTEGER,
     category_id INTEGER,
     dateAdded INTEGER,
-    dateUpdated INTEGER
+    dateUpdated INTEGER,
+    date string
+);
+
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL
+);
+
+CREATE TABLE fileTypes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT,
+  entryDescription TEXT,
+  entryAmount TEXT,
+  entryDate TEXT
 );
 
 CREATE TABLE files (
@@ -25,17 +39,3 @@ CREATE TABLE files (
   processed INTEGER,
   fileType_id INTEGER
 );
-
-CREATE TABLE fileTypes (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT,
-  entryDescription TEXT,
-  entryAmount TEXT
-)
-
-/*
-CREATE TABLE categories (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL
-)
-*/
