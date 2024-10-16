@@ -103,16 +103,15 @@ def formatDate(dateStr):
 
     return dateStr
 
-@bp.route('/')
-def index():
+#@bp.route('/')
+#def index():
 
-    return render_template('process/index.html')
+#    return render_template('process/index.html')
 
-@bp.route('/files', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 def files():
     if request.method == 'POST':
         # check if the post request has the file part
-        print("files")
 
         if 'file' not in request.files:
             flash('No file part')
@@ -174,8 +173,6 @@ def processFile():
         except:
             fileTypeID = False
 
-        print(fileTypeID)
-
         if not fileTypeID:
             
             db.execute(
@@ -208,7 +205,6 @@ def processFile():
 @bp.route('/entries', methods=('GET', 'POST'))
 def processEntries():
     if request.method == 'POST':
-        #print(request.form)
         fileID = request.form.get('fileID')
         entriesArr = []
         for i, input in enumerate(request.form):
@@ -219,7 +215,6 @@ def processEntries():
                 rowDict['amount'] = request.form.get(str(i) + "-amount")
                 entriesArr.append(rowDict)
 
-        #print(entriesArr)
         for entry in entriesArr:
             if entry['amount'] == '':
                 amount = 0
@@ -275,9 +270,6 @@ def processEntries():
 @bp.route('/categorize', methods=('GET', 'POST'))
 def categorizeEntries():
     if request.method == 'POST':
-        print('post')
-
-        print(request.form.getlist('category'))
         for option in request.form.getlist('category'):
             if not option == "Select a category":
                 optionArr = option.split('-')
