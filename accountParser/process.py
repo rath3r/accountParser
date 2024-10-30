@@ -208,36 +208,56 @@ def processEntries():
     if request.method == 'POST':
         fileID = request.form.get('fileID')
         entriesArr = []
-        print(request.form.get("proccessed"))
-        """
-        for i, input in enumerate(request.form):
-            if str(i) + "-date" in request.form:
-                rowDict = {}
-                rowDict['date'] = request.form.get(str(i) + "-date")
-                rowDict['description'] = request.form.get(str(i) + "-description")
-                rowDict['amount'] = request.form.get(str(i) + "-amount")
-                entriesArr.append(rowDict)
+        if request.form.get("processed"):
+            # update
+            for i, input in enumerate(request.form):
+                if str(i) + "-date" in request.form:
+                    rowDict = {}
+                    rowDict['month'] = request.form.get(str(i) + "-month")
+                    rowDict['year'] = request.form.get(str(i) + "-year")
+                    rowDict['id'] = request.form.get(str(i) + "-id")
+                    entriesArr.append(rowDict)
 
-        for entry in entriesArr:
-            if entry['amount'] == '':
-                amount = 0
-            else:
-                amount = abs(float(entry['amount']))
+            for entry in entriesArr:
+                print(entry['year'])
+                db = get_db()
+                db.execute(
+                    'UPDATE accountEntries SET year = ?, month = ? WHERE id = ?'
+                    (int(entry['year']), int(entry['month']), entry['id'])
+                )
+                db.commit() 
 
-            db = get_db()
-            db.execute(
-                'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated, date)'
-                ' VALUES (?, ?, ?, ?, ?, ?)',
-                (entry['description'], amount, fileID, datetime.now(), datetime.now(), formatDate(entry['date']))
-            )
-            db.commit()
-        """
+        else:
+            for i, input in enumerate(request.form):
+                if str(i) + "-date" in request.form:
+                    rowDict = {}
+                    rowDict['date'] = request.form.get(str(i) + "-date")
+                    rowDict['description'] = request.form.get(str(i) + "-description")
+                    rowDict['amount'] = request.form.get(str(i) + "-amount")
+                    entriesArr.append(rowDict)
+
+            for entry in entriesArr:
+                if entry['amount'] == '':
+                    amount = 0
+                else:
+                    amount = abs(float(entry['amount']))
+
+                db = get_db()
+                db.execute(
+                    'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated, date)'
+                    ' VALUES (?, ?, ?, ?, ?, ?)',
+                    (entry['description'], amount, fileID, datetime.now(), datetime.now(), formatDate(entry['date']))
+                )
+                db.commit()
+        
         return redirect('/entries')
 
     else:
         fileID = request.args.get('fileID')
         file = getFileByID(fileID)
         fileProcessed = checkForEntriesByFile(fileID)
+        if fileProcessed:
+            entries = getEntriesByFileID(fileID)       
         lines = readEntryCSV(file['title'])
         categories = getCategories()
         fileTypeID = file['fileType_id']
@@ -257,6 +277,11 @@ def processEntries():
                     if el == fileType['entryDate']:
                         entryDate = j
             else:
+                if fileProcessed:
+                    for entry in entries:
+                        if line[entryDate] == entry['date'] and line[descriptionIndex] == entry['description']:
+                            id = entry['id']
+                            break
                 lineArr = []
                 lineArr.append(line[entryDate])
                 lineArr.append(line[descriptionIndex])
@@ -265,6 +290,7 @@ def processEntries():
                 lineArr.append(date.month)
                 lineArr.append(date.year)
                 lineArr.append(date.strftime("%B"))
+                lineArr.append(id)
                 entriesArr.append(lineArr)
 
     # check if this file has entries in the accountEntries table

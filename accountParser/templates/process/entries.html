@@ -15,6 +15,9 @@
             <input type="hidden" name="processed" value="{{ fileProcessed }}">
             <thead>
                 <tr>
+                    {% if fileProcessed %}
+                        <th>ID</th> 
+                    {% endif %}
                     <th>Date</th>
                     <th>Month</th>
                     <th>Year</th>
@@ -25,6 +28,12 @@
             <tbody>
                 {% for line in lines %}
                     <tr>
+                        {% if fileProcessed %}
+                        <td>
+                            {{ line[6] }}
+                            <input type="hidden" name="{{ loop.index0 }}-id" value="{{ line[6] }}">
+                        </td>
+                        {% endif %}
                         <td>
                             {{ line[0] }}
                             <input type="hidden" name="{{ loop.index0 }}-date" value="{{ line[0] }}">
@@ -51,6 +60,6 @@
             </tbody>
         </table>
         <input type="hidden" name="fileID" value="{{ file['id'] }}">
-        <button class="btn btn-primary">Add Entries</button>
+        <button class="btn btn-primary">{% if fileProcessed %}Update{% else %}Add{% endif %} Entries</button>
     </form>
 {% endblock %}
