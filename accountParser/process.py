@@ -1,4 +1,5 @@
 import functools, csv, os
+from dateutil.parser import parse
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -207,6 +208,8 @@ def processEntries():
     if request.method == 'POST':
         fileID = request.form.get('fileID')
         entriesArr = []
+        print(request.form.get("proccessed"))
+        """
         for i, input in enumerate(request.form):
             if str(i) + "-date" in request.form:
                 rowDict = {}
@@ -228,7 +231,7 @@ def processEntries():
                 (entry['description'], amount, fileID, datetime.now(), datetime.now(), formatDate(entry['date']))
             )
             db.commit()
-
+        """
         return redirect('/entries')
 
     else:
@@ -258,6 +261,10 @@ def processEntries():
                 lineArr.append(line[entryDate])
                 lineArr.append(line[descriptionIndex])
                 lineArr.append(line[amountIndex])
+                date = datetime.strptime(line[entryDate], fileType['entryDateFormat'])
+                lineArr.append(date.month)
+                lineArr.append(date.year)
+                lineArr.append(date.strftime("%B"))
                 entriesArr.append(lineArr)
 
     # check if this file has entries in the accountEntries table
