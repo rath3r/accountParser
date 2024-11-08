@@ -13,5 +13,8 @@ bp = Blueprint('home', __name__, url_prefix='/')
 
 @bp.route('/', methods=('GET', 'POST'))
 def files():
+    entries = []
+    if request.args.get("month"):
+        print("lets go")
 
-    return render_template('home/index.html')
+    return render_template('home/index.html', entries=entries)

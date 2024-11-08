@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <form class="row">
+    <form action="/" method="GET" class="row">
         <div class="col-auto">
             <p class="mt-2">Select time period to display</p>
         </div>
@@ -40,6 +40,10 @@
         </div>
     </form>
     <div class="row">
-        <p>No Entries</p>
+        {% if entries|length == 0 %}
+            <p>No entries for selected timeframe</p>
+        {% else %}
+
+        {% endif %}
     </div>
 {% endblock %}

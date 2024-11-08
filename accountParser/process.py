@@ -104,6 +104,14 @@ def formatDate(dateStr):
 
     return dateStr
 
+def updateEntryMonthAndYear(year, month, entryId):
+    db = get_db()
+    db.execute(
+        'UPDATE accountEntries SET year = ?, month = ? WHERE id = ?',
+        (year, month, entryId)
+    )
+    db.commit() 
+
 #@bp.route('/')
 #def index():
 
@@ -220,12 +228,7 @@ def processEntries():
 
             for entry in entriesArr:
                 print(entry['year'])
-                db = get_db()
-                db.execute(
-                    'UPDATE accountEntries SET year = ?, month = ? WHERE id = ?'
-                    (int(entry['year']), int(entry['month']), entry['id'])
-                )
-                db.commit() 
+                updateEntryMonthAndYear(entry['year'], entry['month'], entry['id'])
 
         else:
             for i, input in enumerate(request.form):
