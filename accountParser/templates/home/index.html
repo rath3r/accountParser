@@ -40,10 +40,25 @@
         </div>
     </form>
     <div class="row">
-        {% if entries|length == 0 %}
+        {% if categories|length == 0 %}
             <p>No entries for selected timeframe</p>
         {% else %}
-
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.title }}</td>
+                    <td>{{ category.amount }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         {% endif %}
     </div>
 {% endblock %}
