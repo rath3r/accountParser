@@ -149,7 +149,7 @@ def files():
             )
             db.commit()
             
-            return redirect('/process/files')
+            return redirect('/process')
         else:
             flash('File type not supported')
 
@@ -203,7 +203,7 @@ def processFile():
         )
         db.commit()
 
-        return redirect('/process/files')
+        return redirect('/process')
     else:
         file = getFileByID(request.args.get('fileID'))
         lines = readEntryCSV(file['title'])
@@ -216,7 +216,7 @@ def processEntries():
     if request.method == 'POST':
         fileID = request.form.get('fileID')
         entriesArr = []
-        if request.form.get("processed"):
+        if request.form.get("processed") == True:
             # update
             for i, input in enumerate(request.form):
                 if str(i) + "-date" in request.form:
@@ -266,7 +266,6 @@ def processEntries():
         fileTypeID = file['fileType_id']
         fileType = getFileTypeById(fileTypeID)
         entriesArr = []
-
         descriptionIndex = 0
         amountIndex = 0
         entryDate = 0
@@ -280,21 +279,23 @@ def processEntries():
                     if el == fileType['entryDate']:
                         entryDate = j
             else:
-                if fileProcessed:
-                    for entry in entries:
-                        if line[entryDate] == entry['date'] and line[descriptionIndex] == entry['description']:
-                            id = entry['id']
-                            break
-                lineArr = []
-                lineArr.append(line[entryDate])
-                lineArr.append(line[descriptionIndex])
-                lineArr.append(line[amountIndex])
-                date = datetime.strptime(line[entryDate], fileType['entryDateFormat'])
-                lineArr.append(date.month)
-                lineArr.append(date.year)
-                lineArr.append(date.strftime("%B"))
-                lineArr.append(id)
-                entriesArr.append(lineArr)
+                if line[0] is not "":
+                    lineArr = []
+                    id = 0
+                    if fileProcessed:
+                        for entry in entries:
+                            if line[entryDate] == entry['date'] and line[descriptionIndex] == entry['description']:
+                                id = entry['id']
+                                break
+                    lineArr.append(line[entryDate])
+                    lineArr.append(line[descriptionIndex])
+                    lineArr.append(line[amountIndex])
+                    date = datetime.strptime(line[entryDate], fileType['entryDateFormat'])
+                    lineArr.append(date.month)
+                    lineArr.append(date.year)
+                    lineArr.append(date.strftime("%B"))
+                    lineArr.append(id)
+                    entriesArr.append(lineArr)
 
     # check if this file has entries in the accountEntries table
 
