@@ -9,6 +9,7 @@
 {% block content %}
     <table class="table">
         <thead>
+            <th>Categories</th>
             <th>January</th>
             <th>February</th>
             <th>March</th>
@@ -26,9 +27,16 @@
             <th>Full year average</th>
         </thead>
         <tbody>
-            
+        {% for categoryArr in categories %}
+            <tr>
+            {% for category in categoryArr %}
+                <td>{{ category }}</td>
+            {% endfor %}    
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
+    <!--
     <form action="/" method="GET" class="row">
         <div class="col-auto">
             <p class="mt-2">Select time period to display</p>
@@ -83,4 +91,5 @@
         </table>
         {% endif %}
     </div>
+    -->
 {% endblock %}
