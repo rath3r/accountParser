@@ -37,5 +37,6 @@ def files():
             year = request.args.get('year')
         print(month)
         categories = getCategoryByTime(month, year)
-
+        print(categories)
+        
     return render_template('home/index.html', categories=categories)

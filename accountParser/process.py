@@ -50,7 +50,7 @@ def getFileByID(id):
     db = get_db()
     file = db.execute(
         'SELECT * FROM files WHERE files.id = ?',
-        (id)
+        (id,)
     ).fetchone()
 
     return file
@@ -216,8 +216,7 @@ def processEntries():
     if request.method == 'POST':
         fileID = request.form.get('fileID')
         entriesArr = []
-        if request.form.get("processed") == True:
-            # update
+        if request.form.get("processed") == 'True':
             for i, input in enumerate(request.form):
                 if str(i) + "-date" in request.form:
                     rowDict = {}
@@ -227,7 +226,6 @@ def processEntries():
                     entriesArr.append(rowDict)
 
             for entry in entriesArr:
-                print(entry['year'])
                 updateEntryMonthAndYear(entry['year'], entry['month'], entry['id'])
 
         else:
@@ -279,7 +277,7 @@ def processEntries():
                     if el == fileType['entryDate']:
                         entryDate = j
             else:
-                if line[0] is not "":
+                if not line[0] == "":
                     lineArr = []
                     id = 0
                     if fileProcessed:
