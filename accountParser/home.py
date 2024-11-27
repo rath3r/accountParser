@@ -53,7 +53,10 @@ def files():
             print(i)
             monthSum = getCatSumByIDandTime(category['id'], i, 2024)
             print(monthSum[0]['amount'])
-            categoryArr.append(monthSum[0]['amount'])
+            if not monthSum[0]['amount']:
+                categoryArr.append(0)
+            else:
+                categoryArr.append("{:.2f}".format(monthSum[0]['amount']))
 
         categories.append(categoryArr)
 
