@@ -57,6 +57,15 @@ def files():
                 categoryArr.append(0)
             else:
                 categoryArr.append("{:.2f}".format(monthSum[0]['amount']))
+        firstHalf = 0
+        for i in range(1, 6):
+            firstHalf += float(categoryArr[i])
+        categoryArr.append("{:.2f}".format((firstHalf/6)))
+
+        secondHalf = 0
+        for i in range(7,13):
+            secondHalf += float(categoryArr[i])
+        categoryArr.append("{:.2f}".format((secondHalf/6)))
 
         categories.append(categoryArr)
 
