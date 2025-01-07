@@ -45,14 +45,14 @@ def getCatSumByIDandTime(id, month, year):
 def files():
     categoriesObj = { "categories": [] }
     categories = []
-    print(getCategories())
+    #print(getCategories())
     for category in getCategories():
         categoryArr = []
         categoryArr.append(category['title'])
         for i in range(1, 13):
             print(i)
             monthSum = getCatSumByIDandTime(category['id'], i, 2024)
-            print(monthSum[0]['amount'])
+            #print(monthSum[0]['amount'])
             if not monthSum[0]['amount']:
                 categoryArr.append(0)
             else:
