@@ -15,7 +15,9 @@ CREATE TABLE accountEntries (
     category_id INTEGER,
     dateAdded INTEGER,
     dateUpdated INTEGER,
-    date string
+    date TEXT,
+    year INTEGER,
+    month INTEGER
 );
 
 CREATE TABLE categories (
@@ -28,7 +30,8 @@ CREATE TABLE fileTypes (
   title TEXT,
   entryDescription TEXT,
   entryAmount TEXT,
-  entryDate TEXT
+  entryDate TEXT,
+  entryDateFormat TEXT
 );
 
 CREATE TABLE files (
