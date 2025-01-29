@@ -55,6 +55,20 @@ After running the virtual environment use:
 $ flask --app accountParser init-db
 ```
 
+#### Import data
+
+To import data into a database use the SQLITE data import method.
+
+#### Dev DB
+
+To use a dev database an environment variable can be used.
+
+```
+$ export FLASK_DEV_DB=true
+```
+
+This uses a [built in Flask feature][Flask ENV config] that allows prefixes END variables to be loaded automatically.
+
 #### SQLite help
 
 Use the `sqlite3` command to access the database on the command line.
@@ -65,6 +79,8 @@ $ sqlite3 accountparser.sqlite
 
 Show tables: `.tables`
 Show column names: `.schema <table>`
+
+To dump a db use `https://stackoverflow.com/questions/75675/how-to-dump-the-data-of-some-sqlite3-tables`
 
 #### Categories
 
@@ -95,3 +111,5 @@ backup us kept in CSV files in the non version controlled data directory.
 ```
 
 ```
+
+[Flask ENV config]: https://flask.palletsprojects.com/en/stable/config/#configuring-from-environment-variables
