@@ -8,7 +8,14 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
     )
     app.config.from_prefixed_env()
-    if app.config["DEV_DB"] is True:
+    try:
+        devDB = app.config["DEV_DB"]
+        print("Using DEV DB")
+    except:
+        devDB = False
+        print("Using PROD DB")
+    
+    if devDB is True:
         app.config.from_mapping(
             DATABASE=os.path.join(app.instance_path, 'accountParserDev.sqlite'),
         )
