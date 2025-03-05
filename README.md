@@ -108,8 +108,12 @@ backup us kept in CSV files in the non version controlled data directory.
 - categerise unknown
 - update totals
 
-```
+# Next Steps
 
-```
+- Update uploads page to add date of upload
+- Entries fix the date column
+- Order entries page
+- Homepage update the to include last year\
+- Change homepage to last 6 months and 3 months
 
 [Flask ENV config]: https://flask.palletsprojects.com/en/stable/config/#configuring-from-environment-variables
