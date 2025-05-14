@@ -10,21 +10,12 @@
     <table class="table">
         <thead>
             <th>Categories</th>
-            <th>January</th>
-            <th>February</th>
-            <th>March</th>
-            <th>April</th>
-            <th>May</th>
-            <th>June</th>
-            <th>July</th>
-            <th>August</th>
-            <th>September</th>
-            <th>October</th>
-            <th>November</th>
-            <th>December</th>
-            <th>First half average</th>
-            <th>Second half average</th>
-            <th>Full year average</th>
+            {% for month in months%}
+                <th>{{ month[2] }} {{ month[1] }}</th>
+            {% endfor %}
+            <th>3 Month average</th>
+            <th>6 Month average</th>
+            <th>12 Month average</th>
         </thead>
         <tbody>
         {% for categoryArr in categories %}
