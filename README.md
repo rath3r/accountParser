@@ -116,4 +116,12 @@ backup us kept in CSV files in the non version controlled data directory.
 - Homepage update the to include last year\
 - Change homepage to last 6 months and 3 months
 
+## Current Steps
+
+- navigate to /process/
+- select file and upload
+- click file type link and select what type of file it is
+- click on entries, click on add, go back and click on update
+- categerise the entries
+
 [Flask ENV config]: https://flask.palletsprojects.com/en/stable/config/#configuring-from-environment-variables
