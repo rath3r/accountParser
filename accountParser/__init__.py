@@ -8,6 +8,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
     )
     app.config.from_prefixed_env()
+    # this doesn't work the env being set doesn't set devDB to true
     try:
         devDB = app.config["DEV_DB"]
         print("Using DEV DB")
