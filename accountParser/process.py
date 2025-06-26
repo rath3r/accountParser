@@ -213,56 +213,63 @@ def processFile():
 
 @bp.route('/entries', methods=('GET', 'POST'))
 def processEntries():
+    fileID = request.args.get('fileID')
+    print(request.form.get('fileID'))
+    file = getFileByID(fileID)
+    print(file)
+    fileTypeID = file['fileType_id']
+    fileType = getFileTypeById(fileTypeID)
     if request.method == 'POST':
-        fileID = request.form.get('fileID')
         entriesArr = []
-        if request.form.get("processed") == 'True':
-            for i, input in enumerate(request.form):
-                if str(i) + "-date" in request.form:
-                    rowDict = {}
-                    rowDict['month'] = request.form.get(str(i) + "-month")
-                    rowDict['year'] = request.form.get(str(i) + "-year")
-                    rowDict['id'] = request.form.get(str(i) + "-id")
-                    entriesArr.append(rowDict)
+        # if request.form.get("processed") == 'True':
+        #    for i, input in enumerate(request.form):
+        #        if str(i) + "-date" in request.form:
+        #            rowDict = {}
+        #            rowDict['month'] = request.form.get(str(i) + "-month")
+        #            rowDict['year'] = request.form.get(str(i) + "-year")
+        #            rowDict['id'] = request.form.get(str(i) + "-id")
+        #            entriesArr.append(rowDict)
+        #
+        #    for entry in entriesArr:
+        #        updateEntryMonthAndYear(entry['year'], entry['month'], entry['id'])
 
-            for entry in entriesArr:
-                updateEntryMonthAndYear(entry['year'], entry['month'], entry['id'])
+#        else:
+        for i, input in enumerate(request.form):
+            if str(i) + "-date" in request.form:
+                rowDict = {}
+                rowDict['date'] = request.form.get(str(i) + "-date")
+                rowDict['description'] = request.form.get(str(i) + "-description")
+                rowDict['amount'] = request.form.get(str(i) + "-amount")
 
-        else:
-            for i, input in enumerate(request.form):
-                if str(i) + "-date" in request.form:
-                    rowDict = {}
-                    rowDict['date'] = request.form.get(str(i) + "-date")
-                    rowDict['description'] = request.form.get(str(i) + "-description")
-                    rowDict['amount'] = request.form.get(str(i) + "-amount")
-                    entriesArr.append(rowDict)
+                rowDict['month'] = request.form.get(str(i) + "-month")
+                rowDict['year'] = request.form.get(str(i) + "-year")
+                # rowDict['id'] = request.form.get(str(i) + "-id")
+                entriesArr.append(rowDict)
 
-            for entry in entriesArr:
-                if entry['amount'] == '':
-                    amount = 0
-                else:
-                    amount = abs(float(entry['amount']))
+        for entry in entriesArr:
+            if entry['amount'] == '':
+                amount = 0
+            else:
+                amount = abs(float(entry['amount']))
 
-                db = get_db()
-                db.execute(
-                    'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated, date)'
-                    ' VALUES (?, ?, ?, ?, ?, ?)',
-                    (entry['description'], amount, fileID, datetime.now(), datetime.now(), formatDate(entry['date']))
-                )
-                db.commit()
+            db = get_db()
+            db.execute(
+                'INSERT INTO accountEntries (description, amount, file_id, dateAdded, dateUpdated, date)'
+                ' VALUES (?, ?, ?, ?, ?, ?)',
+                (entry['description'], amount, fileID, datetime.now(), datetime.now(), formatDate(entry['date']))
+            )
+            db.commit()
+
+            # entires = getEntriesByFileID(fileID)
         
         return redirect('/entries')
 
     else:
-        fileID = request.args.get('fileID')
-        file = getFileByID(fileID)
         fileProcessed = checkForEntriesByFile(fileID)
         if fileProcessed:
             entries = getEntriesByFileID(fileID)       
         lines = readEntryCSV(file['title'])
         categories = getCategories()
-        fileTypeID = file['fileType_id']
-        fileType = getFileTypeById(fileTypeID)
         entriesArr = []
         descriptionIndex = 0
         amountIndex = 0
